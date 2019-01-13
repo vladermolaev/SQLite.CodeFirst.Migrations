@@ -2,10 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Authors>Vladislav Ermolaev</Authors>
-    <Company>Tekscan</Company>
-    <Description>Migrations using schema versioning.</Description>
+    <Authors>vladermolaev</Authors>
+    <Company>Vladislav Ermolaev</Company>
+    <Description>Local SQLite database generated via Entity Framework 6 from code (code first). Provides custom support for database migrations based on schema versioning.</Description>
     <PackageTags>SQLite CodeFirst EF6 Migration Migrations</PackageTags>
+    <PackageProjectUrl>https://github.com/vladermolaev/SQLite.CodeFirst.Migrations</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/vladermolaev/SQLite.CodeFirst.Migrations</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
