@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <license type="expression">MIT</license>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>SQLite CodeFirst EF6 Migration Migrations</tags>
+    <dependencies>
+      <dependency id="System.Data.SQLite" version="1.0.109.2"/>
+      <dependency id="SQLite.CodeFirst" version="1.5.1.25"/>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="content/Client.cs" target="content/SampleDataModel/Client.cs"/>
+    <file src="content/DataModel.cs" target="content/SampleDataModel/DataModel.cs"/>
+    <file src="content/app.config.transform" target="content/app.config.transform"/>
+  </files>
+</package>

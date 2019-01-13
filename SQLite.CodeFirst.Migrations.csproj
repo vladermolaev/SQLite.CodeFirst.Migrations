@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Vladislav Ermolaev</Authors>
+    <Company>Tekscan</Company>
+    <Description>Migrations using schema versioning.</Description>
+    <PackageTags>SQLite CodeFirst EF6 Migration Migrations</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="content\Client.cs" />
+    <Compile Remove="content\DataModel.cs" />
+    <Compile Remove="content\Patient.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SQLite.CodeFirst" Version="1.5.1.25" />
+  </ItemGroup>
+
+</Project>
