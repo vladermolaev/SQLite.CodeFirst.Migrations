@@ -1,13 +1,11 @@
-using System.Data.Entity;
-
 namespace SampleDataModel
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Client
+    public class Client : IClient
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long ClientId { get; set; }
 
         [Required]

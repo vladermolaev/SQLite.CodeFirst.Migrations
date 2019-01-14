@@ -19,8 +19,11 @@
     </dependencies>
   </metadata>
   <files>
+    <file src="content/IClient.cs" target="content/SampleDataModel/IClient.cs"/>
     <file src="content/Client.cs" target="content/SampleDataModel/Client.cs"/>
     <file src="content/DataModel.cs" target="content/SampleDataModel/DataModel.cs"/>
+    <file src="content/IPersistentData.cs" target="content/SampleDataAccess/IPersistentData.cs"/>
+    <file src="content/SqLitePersistence.cs" target="content/SampleDataAccess/SqLitePersistence.cs"/>
     <file src="content/app.config.transform" target="content/app.config.transform"/>
   </files>
 </package>
