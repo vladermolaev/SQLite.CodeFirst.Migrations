@@ -5,11 +5,11 @@
     <Authors>vladermolaev</Authors>
     <Company>Vladislav Ermolaev</Company>
     <Description>Local SQLite database generated via Entity Framework 6 from code (code first). Provides custom support for database migrations based on schema versioning as described by Inne Hoekstra: https://medium.com/@hoekje/simple-migrations-with-c-and-sqlite-9942e1863536
-Adds a few sample files to your project under SampleDataModel and SampleDataAccess folders as a usage example.</Description>
+Adds a few sample files to your project: example of data model classes under SampleDataModel, example of accessing data in the database via model classes under SampleDataAccess, and example of migration scripts under Migrations.</Description>
     <PackageTags>SQLite CodeFirst EF6 Migration Migrations</PackageTags>
     <PackageProjectUrl>https://github.com/vladermolaev/SQLite.CodeFirst.Migrations</PackageProjectUrl>
     <RepositoryUrl>https://github.com/vladermolaev/SQLite.CodeFirst.Migrations</RepositoryUrl>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,8 +17,16 @@ Adds a few sample files to your project under SampleDataModel and SampleDataAcce
     <Compile Remove="content\DataModel.cs" />
     <Compile Remove="content\IClient.cs" />
     <Compile Remove="content\IPersistentData.cs" />
+    <Compile Remove="content\IPoduct.cs" />
+    <Compile Remove="content\IProduct.cs" />
     <Compile Remove="content\Patient.cs" />
+    <Compile Remove="content\Poduct.cs" />
+    <Compile Remove="content\Product.cs" />
     <Compile Remove="content\SqLitePersistence.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="content\Migrations_readme.txt" />
   </ItemGroup>
 
   <ItemGroup>
