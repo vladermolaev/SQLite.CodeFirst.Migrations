@@ -3,7 +3,7 @@
 //    var clients = await new SqLitePersistence().GetClients();
 
 // Or make SqLitePersistence class static (make all methods static) and then get
-// clients like so:
+// clients without creating an object of the class:
 //    var clients = await SqLitePersistence.GetClients();
 
 // Alternatively, you may need to abstract from data access implementation at
@@ -28,6 +28,16 @@
 // And third is to access the database via this service:
 //    var clients = Services.Get<SampleDataAccess.IPersistentData>().GetClients();
 
+// Current implementation uses two conventions for consistensy and simplicity
+// of data access.
+// 1. Name of a table is derived from name of a model class by adding 's' to the
+// end, e.g. for model class 'Client' expected table name in the database is
+// 'Clients'. If model class ends with 's' then its name is used as a table name
+// as is, e.g. for model class 'Settings' expected table name in the database is
+// also 'Settings'.
+// 2. Property name for the primary key is name of the model class appended with
+// 'Id', e.g. model class 'Client' is expected to have 'ClientId' property to
+// access primary key column.
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -38,46 +48,72 @@ namespace SampleDataAccess
 {
     internal class SqLitePersistence : IPersistentData
     {
-        public void AddClient(IClient c)
+        public void AddClient(IClient c) { AddElement((Client)c); }
+        public void UpdateClient(IClient c) { UpdateElement((Client)c); }
+        public void RemoveClient(int id) { RemoveElement<Client>(id); }
+        public Task<List<IClient>> GetClients() { return GetElements<IClient, Client>(); }
+
+        public void AddProduct(IProduct p) { AddElement((Product)p); }
+        public void UpdateProduct(IProduct p) { UpdateElement((Product)p); }
+        public void RemoveProduct(int id) { RemoveElement<Product>(id); }
+        public Task<List<IProduct>> GetProducts() { return GetElements<IProduct, Product>(); }
+
+        private static string ElementNameToTableName(string elementTypeName)
+        {
+            return elementTypeName.EndsWith("s") ? elementTypeName : elementTypeName + "s";
+        }
+        private static void AddElement<T>(T e) where T : class
         {
             using (var db = new DataModel())
             {
-                db.Clients.Add((Client)c);
+                var tableName = ElementNameToTableName(typeof(T).Name);
+                var tableModel = (DbSet<T>)typeof(DataModel).GetProperty(tableName).GetValue(db);
+                tableModel.Add(e);
                 db.SaveChanges();
             }
         }
-        public void UpdateClient(IClient c)
+        private static void UpdateElement<T>(T e) where T : class
         {
             using (var db = new DataModel())
             {
-                var existingClient = db.Clients.Find(c.ClientId);
-                if (existingClient == null) return;
-                db.Entry(existingClient).CurrentValues.SetValues(c);
+                var tableName = ElementNameToTableName(typeof(T).Name);
+                var tableModel = (DbSet<T>)typeof(DataModel).GetProperty(tableName).GetValue(db);
+                var elementIdPropertyName = typeof(T).Name + "Id";
+                var elementId = (long)typeof(T).GetProperty(elementIdPropertyName).GetValue(e);
+                var existingElement = tableModel.Find(elementId);
+                if (existingElement == null) return;
+                db.Entry(existingElement).CurrentValues.SetValues(e);
                 db.SaveChanges();
             }
         }
-        public void RemoveClient(int clientId)
+        private static void RemoveElement<T>(long elementId) where T : class, new()
         {
             using (var db = new DataModel())
             {
-                var c = new Client { ClientId = clientId };
-                db.Clients.Attach(c);
-                db.Clients.Remove(c);
+                var tableName = ElementNameToTableName(typeof(T).Name);
+                var tableModel = (DbSet<T>)typeof(DataModel).GetProperty(tableName).GetValue(db);
+                var elementIdPropertyName = typeof(T).Name + "Id";
+                var e = new T();
+                typeof(T).GetProperty(elementIdPropertyName).SetValue(e, elementId);
+                tableModel.Attach(e);
+                tableModel.Remove(e);
                 try
                 {
                     db.SaveChanges();
                 }
                 catch (System.Data.Entity.Infrastructure.DbUpdateConcurrencyException)
                 {
-                    // Client with this ID is not in the table.
+                    // Element with this ID is not in the table.
                 }
             }
         }
-        public Task<List<IClient>> GetClients()
+        private static Task<List<IT>> GetElements<IT, T>() where T : class, IT
         {
-            using (var data = new DataModel())
+            using (var db = new DataModel())
             {
-                return (from clientList in data.Clients select clientList).ToListAsync<IClient>();
+                var tableName = ElementNameToTableName(typeof(T).Name);
+                var tableModel = (DbSet<T>)typeof(DataModel).GetProperty(tableName).GetValue(db);
+                return (from list in tableModel select list).ToListAsync<IT>();
             }
         }
     }
