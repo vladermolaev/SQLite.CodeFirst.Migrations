@@ -28,7 +28,7 @@
 // And third is to access the database via this service:
 //    var clients = Services.Get<SampleDataAccess.IPersistentData>().GetClients();
 
-// Current implementation uses two conventions for consistensy and simplicity
+// Current implementation uses two conventions for consistency and simplicity
 // of data access.
 // 1. Name of a table is derived from name of a model class by adding 's' to the
 // end, e.g. for model class 'Client' expected table name in the database is

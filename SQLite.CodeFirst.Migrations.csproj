@@ -9,7 +9,7 @@ Adds a few sample files to your project: example of data model classes under Sam
     <PackageTags>SQLite CodeFirst EF6 Migration Migrations</PackageTags>
     <PackageProjectUrl>https://github.com/vladermolaev/SQLite.CodeFirst.Migrations</PackageProjectUrl>
     <RepositoryUrl>https://github.com/vladermolaev/SQLite.CodeFirst.Migrations</RepositoryUrl>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
